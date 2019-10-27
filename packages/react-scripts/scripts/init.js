@@ -124,6 +124,14 @@ module.exports = function(
   // Setup the browsers list
   appPackage.browserslist = defaultBrowsers;
 
+  const packageJsonExists = fs.existsSync(path.join(appPath, 'package.json'));
+  if (packageJsonExists) {
+    fs.renameSync(
+      path.join(appPath, 'package.json'),
+      path.join(appPath, 'package.old.json')
+    );
+  }
+
   fs.writeFileSync(
     path.join(appPath, 'package.json'),
     JSON.stringify(appPackage, null, 2) + os.EOL
@@ -134,6 +142,14 @@ module.exports = function(
     fs.renameSync(
       path.join(appPath, 'README.md'),
       path.join(appPath, 'README.old.md')
+    );
+  }
+
+  const appBladeExists = fs.existsSync(path.join(laravelViews, 'app.blade.php'));
+  if (appBladeExists) {
+    fs.renameSync(
+      path.join(laravelViews, 'app.blade.php'),
+      path.join(laravelViews, 'app.old.blade.php')
     );
   }
 
@@ -295,11 +311,27 @@ module.exports = function(
   console.log();
   console.log(chalk.cyan('  cd'), cdpath);
   console.log(`  ${chalk.cyan(`${displayedCommand} start`)}`);
+  if (packageJsonExists) {
+    console.log();
+    console.log(
+      chalk.yellow(
+        'You had a `package.json` file, we renamed it to `package.old.json`'
+      )
+    );
+  }
   if (readmeExists) {
     console.log();
     console.log(
       chalk.yellow(
         'You had a `README.md` file, we renamed it to `README.old.md`'
+      )
+    );
+  }
+  if (appBladeExists) {
+    console.log();
+    console.log(
+      chalk.yellow(
+        'You had a `app.blade.php` file in your Laravel views, we renamed it to `app.old.blade.php`'
       )
     );
   }
