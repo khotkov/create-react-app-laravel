@@ -1,16 +1,16 @@
 {
-  "name": "cra-template",
+  "name": "cra-template-laravel",
   "version": "1.0.0",
   "keywords": [
     "react",
     "create-react-app",
     "template"
   ],
-  "description": "The base template for Create React App.",
+  "description": "The base template for Create React App Laravel.",
   "main": "template.json",
   "repository": {
     "type": "git",
-    "url": "https://github.com/facebook/create-react-app.git",
+    "url": "https://github.com/mjsarfatti/create-react-app-laravel.git",
     "directory": "packages/cra-template"
   },
   "license": "MIT",
@@ -18,7 +18,7 @@
     "node": ">=8"
   },
   "bugs": {
-    "url": "https://github.com/facebook/create-react-app/issues"
+    "url": "https://github.com/mjsarfatti/create-react-app-laravel/issues"
   },
   "files": [
     "template",
