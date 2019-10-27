@@ -1,3 +1,34 @@
+# Create React App Laravel
+
+Create React apps seamlessly in a Laravel project with no build configuration.
+
+- [Installation](https://github.com/mjsarfatti/create-react-app/wiki) – How to create a new app inside a Laravel project.
+
+## Quick Start
+
+```sh
+cd my-laravel-project
+npx create-react-app-laravel .
+npm start
+```
+
+Then open [http://localhost:3000/](http://localhost:3000/) to see your app.<br>
+
+Except for the _installation instructions_ and the _build process_ (see below), everything else works exactly the same as in Create React App.  
+If something doesn’t work and you strongly suspect it's specific to the Laravel variation of Create React App, please [file an issue with us](https://github.com/mjsarfatti/create-react-app-laravel/issues/new).
+
+**⚠️ PLEASE NOTE ⚠️**
+
+Running `npm run build` or `yarn build` works exactly the same as in the original Create React App, with the only difference that the build folder is set to be Laravel’s `public` folder.
+
+A consequence of this is that every time you build the React app **the `public` folder is completely wiped out** and rebuilt sourcing the contents from `resources/react-app/public`. If you want files to persist (eg. your custom `.htaccess` configuration) that’s where you should place them.
+
+For your convenience you will already find `.htaccess` and `index.php` in `resources/react-app/public`.
+
+_👇 Below this line are the original Create React App docs_
+
+---
+
 # Create React App [![Build Status](https://dev.azure.com/facebook/create-react-app/_apis/build/status/facebook.create-react-app?branchName=master)](https://dev.azure.com/facebook/create-react-app/_build/latest?definitionId=1&branchName=master) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-green.svg)](https://github.com/facebook/create-react-app/pulls)
 
 Create React apps with no build configuration.

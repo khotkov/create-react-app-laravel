@@ -124,14 +124,6 @@ module.exports = function(
   // Setup the browsers list
   appPackage.browserslist = defaultBrowsers;
 
-  const packageJsonExists = fs.existsSync(path.join(appPath, 'package.json'));
-  if (packageJsonExists) {
-    fs.renameSync(
-      path.join(appPath, 'package.json'),
-      path.join(appPath, 'package.old.json')
-    );
-  }
-
   fs.writeFileSync(
     path.join(appPath, 'package.json'),
     JSON.stringify(appPackage, null, 2) + os.EOL
@@ -311,14 +303,6 @@ module.exports = function(
   console.log();
   console.log(chalk.cyan('  cd'), cdpath);
   console.log(`  ${chalk.cyan(`${displayedCommand} start`)}`);
-  if (packageJsonExists) {
-    console.log();
-    console.log(
-      chalk.yellow(
-        'You had a `package.json` file, we renamed it to `package.old.json`'
-      )
-    );
-  }
   if (readmeExists) {
     console.log();
     console.log(

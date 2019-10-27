@@ -235,12 +235,14 @@ function createApp(
     version = 'react-scripts@0.9.x';
   }
 
+  const reactAppDir = 'resources/react-app'; // crate-react-app-laravel
   const root = path.resolve(name);
   const appName = path.basename(root);
 
   checkAppName(appName);
   fs.ensureDirSync(name);
-  if (!isSafeToCreateProjectIn(root, name)) {
+  fs.ensureDirSync(reactAppDir); // crate-react-app-laravel
+  if (!isSafeToCreateProjectInLaravel(root, name, reactAppDir)) { // crate-react-app-laravel
     process.exit(1);
   }
 
@@ -946,6 +948,96 @@ function isSafeToCreateProjectIn(root, name) {
     console.log();
     console.log(
       'Either try using a new directory name, or remove the files listed above.'
+    );
+
+    return false;
+  }
+
+  // Remove any remnant files from a previous installation
+  const currentFiles = fs.readdirSync(path.join(root));
+  currentFiles.forEach(file => {
+    errorLogFilePatterns.forEach(errorLogFilePattern => {
+      // This will catch `(npm-debug|yarn-error|yarn-debug).log*` files
+      if (file.indexOf(errorLogFilePattern) === 0) {
+        fs.removeSync(path.join(root, file));
+      }
+    });
+  });
+  return true;
+}
+
+// crate-react-app-laravel
+// Same as the above 'isSafeToCreateProjectIn', except it knows we want to create
+// our app in 'resources/react-app' as opposed to the 'root' directory
+function isSafeToCreateProjectInLaravel(root, name, reactAppDir) {
+  const reactAppRoot = path.join(root, reactAppDir);
+  const conflictingRootFiles = [
+    'node_modules',
+    'package.json',
+    'package-lock.json',
+    'yarn.lock',
+  ];
+  const validReactAppFiles = [
+    '.DS_Store',
+    'Thumbs.db',
+    '.git',
+    '.gitignore',
+    '.idea',
+    'README.md',
+    'LICENSE',
+    '.hg',
+    '.hgignore',
+    '.hgcheck',
+    '.npmignore',
+    'mkdocs.yml',
+    'docs',
+    '.travis.yml',
+    '.gitlab-ci.yml',
+    '.gitattributes',
+  ];
+  console.log();
+
+  const rootConflicts = fs
+    .readdirSync(root)
+    .filter(file => conflictingRootFiles.includes(file));
+
+  if (rootConflicts.length > 0) {
+    console.log(
+      `The directory ${chalk.green(name)} contains files that could conflict:`
+    );
+    console.log();
+    for (const file of rootConflicts) {
+      console.log(`  ${file}`);
+    }
+    console.log();
+    console.log(
+      'Rename or remove the files listed above and run me again.'
+    );
+
+    return false;
+  }
+
+  const reactAppConflicts = fs
+    .readdirSync(reactAppRoot)
+    .filter(file => !validReactAppFiles.includes(file))
+    // IntelliJ IDEA creates module files before CRA is launched
+    .filter(file => !/\.iml$/.test(file))
+    // Don't treat log files from previous installation as conflicts
+    .filter(
+      file => !errorLogFilePatterns.some(pattern => file.indexOf(pattern) === 0)
+    );
+
+  if (reactAppConflicts.length > 0) {
+    console.log(
+      `The directory ${chalk.green(reactAppDir)} contains files that could conflict:`
+    );
+    console.log();
+    for (const file of reactAppConflicts) {
+      console.log(`  ${file}`);
+    }
+    console.log();
+    console.log(
+      'Remove the files listed above and run me again.'
     );
 
     return false;
