@@ -1,10 +1,10 @@
 {
-  "name": "laravel-react-scripts",
+  "name": "react-scripts-laravel",
   "version": "5.0.1",
-  "description": "Configuration and scripts for Create React App within Laravel.",
+  "description": "Configuration and scripts for Create React App Laravel.",
   "repository": {
     "type": "git",
-    "url": "https://github.com/mjsarfatti/create-react-app.git",
+    "url": "https://github.com/mjsarfatti/create-react-app-laravel.git",
     "directory": "packages/react-scripts"
   },
   "license": "MIT",
@@ -12,7 +12,7 @@
     "node": ">=14.0.0"
   },
   "bugs": {
-    "url": "https://github.com/mjsarfatti/create-react-app/issues"
+    "url": "https://github.com/mjsarfatti/create-react-app-laravel/issues"
   },
   "files": [
     "bin",

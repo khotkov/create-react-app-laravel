@@ -1,8 +1,18 @@
-# cra-template
+# cra-template-laravel
 
-This is the official base template for [Create React App](https://github.com/facebook/create-react-app).
+This is the official base template for [Create React App Laravel](https://github.com/mjsarfatti/create-react-app-laravel).
 
-If you don't specify a template (for example, `--template typescript`), this template will be used by default.
+To use this template, add `--template laravel` when creating a new app.
+
+For example:
+
+```sh
+npx create-react-app my-app --template laravel
+
+# or
+
+yarn create react-app my-app --template laravel
+```
 
 For more information, please refer to:
 
