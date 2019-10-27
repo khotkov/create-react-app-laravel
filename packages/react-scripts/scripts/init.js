@@ -402,14 +402,6 @@ module.exports = function (
   console.log();
   console.log(chalk.cyan('  cd'), cdpath);
   console.log(`  ${chalk.cyan(`${displayedCommand} start`)}`);
-  if (packageJsonExists) {
-    console.log();
-    console.log(
-      chalk.yellow(
-        'You had a `package.json` file, we renamed it to `package.old.json`'
-      )
-    );
-  }
   if (readmeExists) {
     console.log();
     console.log(
