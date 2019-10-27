@@ -236,13 +236,14 @@ function createApp(
   }
 
   const reactAppDir = 'resources/react-app'; // crate-react-app-laravel
+  const laravelViewsDir = 'resources/views'; // crate-react-app-laravel
   const root = path.resolve(name);
   const appName = path.basename(root);
 
   checkAppName(appName);
   fs.ensureDirSync(name);
   fs.ensureDirSync(reactAppDir); // crate-react-app-laravel
-  if (!isSafeToCreateProjectInLaravel(root, name, reactAppDir)) { // crate-react-app-laravel
+  if (!isSafeToCreateProjectInLaravel(root, name, reactAppDir, laravelViewsDir)) { // crate-react-app-laravel
     process.exit(1);
   }
 
@@ -969,7 +970,7 @@ function isSafeToCreateProjectIn(root, name) {
 // crate-react-app-laravel
 // Same as the above 'isSafeToCreateProjectIn', except it knows we want to create
 // our app in 'resources/react-app' as opposed to the 'root' directory
-function isSafeToCreateProjectInLaravel(root, name, reactAppDir) {
+function isSafeToCreateProjectInLaravel(root, name, reactAppDir, laravelViewsDir) {
   const reactAppRoot = path.join(root, reactAppDir);
   const conflictingRootFiles = [
     'node_modules',
@@ -995,6 +996,9 @@ function isSafeToCreateProjectInLaravel(root, name, reactAppDir) {
     '.gitlab-ci.yml',
     '.gitattributes',
   ];
+  const conflictingLaravelFiles = [
+    'app.blade.php',
+  ];
   console.log();
 
   const rootConflicts = fs
@@ -1017,6 +1021,26 @@ function isSafeToCreateProjectInLaravel(root, name, reactAppDir) {
     return false;
   }
 
+  const laravelViewConflicts = fs
+    .readdirSync(laravelViewsDir)
+    .filter(file => conflictingLaravelFiles.includes(file));
+
+    if (laravelViewConflicts.length > 0) {
+      console.log(
+        `The directory ${chalk.green(laravelViewsDir)} contains files that could conflict:`
+      );
+      console.log();
+      for (const file of laravelViewConflicts) {
+        console.log(`  ${file}`);
+      }
+      console.log();
+      console.log(
+        'Rename or remove the files listed above and run me again.'
+      );
+
+      return false;
+    }
+
   const reactAppConflicts = fs
     .readdirSync(reactAppRoot)
     .filter(file => !validReactAppFiles.includes(file))
@@ -1037,7 +1061,7 @@ function isSafeToCreateProjectInLaravel(root, name, reactAppDir) {
     }
     console.log();
     console.log(
-      'Remove the files listed above and run me again.'
+      'Rename or remove the files listed above and run me again.'
     );
 
     return false;
