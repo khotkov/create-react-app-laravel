@@ -172,7 +172,7 @@ module.exports = function(
     );
   } catch (err) {
     // Append if there's already a `.gitignore` file there
-    if (err.code === 'EEXIST') {
+    if (err.code === 'EEXIST' || err.message === 'dest already exists.') {
       const data = fs.readFileSync(path.join(appPath, 'gitignore'));
       fs.appendFileSync(path.join(appPath, '.gitignore'), data);
       fs.unlinkSync(path.join(appPath, 'gitignore'));
