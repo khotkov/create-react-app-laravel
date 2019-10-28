@@ -199,7 +199,13 @@ function build(previousFileSizes) {
         }
       }
 
-      const resolveArgs = {
+      fs.moveSync(
+        path.join(paths.appBuild, 'index.html'),
+        path.join(paths.laravelViews, 'app.blade.php'),
+        { overwrite: true },
+      );
+
+      return resolve({
         stats,
         previousFileSizes,
         warnings: messages.warnings,
