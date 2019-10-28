@@ -8,8 +8,8 @@ Create React apps seamlessly in a Laravel project with no build configuration.
 
 ```sh
 cd my-laravel-project
-npx create-react-app-laravel .
-npm start
+npx create-react-app-laravel@3.3.0-rc.1 . --scripts-version react-scripts-laravel@3.3.0-rc.3 --template laravel
+yarn start
 ```
 
 Then open [http://localhost:3000/](http://localhost:3000/) to see your app.<br>
