@@ -210,8 +210,6 @@ function build(previousFileSizes) {
         return reject(new Error(messages.warnings.join('\n\n')));
       }
 
-      console.log('Moving index.html to app.blade.php...');
-
       fs.moveSync(
         path.join(paths.appBuild, 'index.html'),
         path.join(paths.laravelViews, 'app.blade.php'),
