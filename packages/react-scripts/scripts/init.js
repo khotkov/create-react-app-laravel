@@ -268,15 +268,15 @@ module.exports = function (
       path.join(appPath, '.gitignore'),
       []
     );
-  }
-
-  // Initialize git repo
-  let initializedGit = false;
-
-  if (tryGitInit()) {
-    initializedGit = true;
-    console.log();
-    console.log('Initialized a git repository.');
+  } catch (err) {
+    // Append if there's already a `.gitignore` file there
+    if (err.code === 'EEXIST' || err.message === 'dest already exists.') {
+      const data = fs.readFileSync(path.join(appPath, 'gitignore'));
+      fs.appendFileSync(path.join(appPath, '.gitignore'), data);
+      fs.unlinkSync(path.join(appPath, 'gitignore'));
+    } else {
+      throw err;
+    }
   }
 
   let command;
