@@ -616,7 +616,7 @@ module.exports = function (webpackEnv) {
             ? {
                 minify: {
                   removeComments: true,
-                  collapseWhitespace: true,
+                  collapseWhitespace: false,
                   removeRedundantAttributes: true,
                   useShortDoctype: true,
                   removeEmptyAttributes: true,

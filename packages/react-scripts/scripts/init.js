@@ -229,6 +229,14 @@ module.exports = function (
     );
   }
 
+  const appBladeExists = fs.existsSync(path.join(laravelViews, 'app.blade.php'));
+  if (appBladeExists) {
+    fs.renameSync(
+      path.join(laravelViews, 'app.blade.php'),
+      path.join(laravelViews, 'app.old.blade.php')
+    );
+  }
+
   // Copy the files for the user
   const templateDir = path.join(templatePath, 'template');
   if (fs.existsSync(templateDir)) {
@@ -394,11 +402,27 @@ module.exports = function (
   console.log();
   console.log(chalk.cyan('  cd'), cdpath);
   console.log(`  ${chalk.cyan(`${displayedCommand} start`)}`);
+  if (packageJsonExists) {
+    console.log();
+    console.log(
+      chalk.yellow(
+        'You had a `package.json` file, we renamed it to `package.old.json`'
+      )
+    );
+  }
   if (readmeExists) {
     console.log();
     console.log(
       chalk.yellow(
         'You had a `README.md` file, we renamed it to `README.old.md`'
+      )
+    );
+  }
+  if (appBladeExists) {
+    console.log();
+    console.log(
+      chalk.yellow(
+        'You had a `app.blade.php` file in your Laravel views, we renamed it to `app.old.blade.php`'
       )
     );
   }
